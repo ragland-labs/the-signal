@@ -1350,6 +1350,7 @@ EVALUATION CRITERIA
 Technical approach: 35% | Past performance: 25% | Price/cost: 25% | Small business: 15%`;
 
     // ── THEME ─────────────────────────────────────────────────────────────────────
+    const THEME_KEY = 'signal_theme';
     const html = document.documentElement;
     function getSystem() { return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
     function applyTheme(t) {

@@ -1513,29 +1513,29 @@ Technical approach: 35% | Past performance: 25% | Price/cost: 25% | Small busine
     function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
 
     // Loading screen — dismiss after 1.8s
-    window.addEventListener('DOMContentLoaded', function () {
-      var loader = document.getElementById('loader');
-      if (!loader) return;
+    // (Script is at bottom of body so DOM is already ready — no DOMContentLoaded listener needed)
+    var loader = document.getElementById('loader');
+    if (loader) {
       setTimeout(function () {
         loader.classList.add('loader-done');
         setTimeout(function () { loader.style.display = 'none'; }, 700);
       }, 1800);
+    }
 
-      // Hero entrance animations
-      ['hero-eyebrow', 'hero-title', 'hero-sub', 'hero-meta'].forEach(function (cls, i) {
-        var el = document.querySelector('.' + cls);
-        if (el) setTimeout(function () { el.classList.add('vis'); }, 400 + i * 140);
-      });
-
-      // Live session time in meta strip
-      var metaTime = document.getElementById('meta-time');
-      if (metaTime) {
-        function tickTime() {
-          metaTime.textContent = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-        }
-        tickTime(); setInterval(tickTime, 60000);
-      }
+    // Hero entrance animations
+    ['hero-eyebrow', 'hero-title', 'hero-sub', 'hero-meta'].forEach(function (cls, i) {
+      var el = document.querySelector('.' + cls);
+      if (el) setTimeout(function () { el.classList.add('vis'); }, 400 + i * 140);
     });
+
+    // Live session time in meta strip
+    var metaTime = document.getElementById('meta-time');
+    if (metaTime) {
+      function tickTime() {
+        metaTime.textContent = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+      }
+      tickTime(); setInterval(tickTime, 60000);
+    }
 
     // Ragland Labs passive-loop signature
     (function () {

@@ -26,8 +26,8 @@ the-signal/
 2. Go to [Cloudflare Pages](https://pages.cloudflare.com) → Create a project
 3. Connect your GitHub repo
 4. Build settings:
-   - **Framework preset**: None
-   - **Build command**: *(leave empty)*
+   - **Framework preset**: **None** (Selecting a framework like React/Vite will cause builds to fail).
+   - **Build command**: *(leave completely empty)*
    - **Output directory**: `/` (root)
 5. **Environment Variables**:
    - In the Cloudflare Pages dashboard, go to **Settings** → **Environment variables**.
@@ -35,11 +35,10 @@ the-signal/
    - Paste your Gemini API key from [Google AI Studio](https://aistudio.google.dev/).
 6. **Save and Deploy**. (You may need to trigger a new deployment for the variable to take effect).
 
-That's it. No build process, no environment variables needed.
-
 ## Security & Privacy
 
-- **API Security**: The API key is stored securely in Cloudflare's environment variables. It is never exposed in the client-side code or the public GitHub repository. calls are proxied through a serverless function (`/functions/api/analyze.js`).
+- **API Security**: The API key is stored securely in Cloudflare's environment variables. It is never exposed in the client-side code or the public GitHub repository. Calls are proxied through a serverless function (`/functions/api/analyze.js`).
+
 - **Data Privacy**: All document processing happens within the Gemini API. No document content is stored on the Cloudflare server or in the browser after the session ends.
 
 ## Running Locally

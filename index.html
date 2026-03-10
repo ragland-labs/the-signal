@@ -1147,16 +1147,15 @@
 <body>
 
   <header id="topbar">
-    <a href="landing.html" class="wordmark" aria-label="The Signal — Back to home">
+    <div class="wordmark" aria-label="The Signal">
       <div class="wordmark-dot" aria-hidden="true"></div>
       The Signal
-    </a>
+    </div>
     <div class="topbar-right">
       <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle color theme">
         <span id="theme-icon" aria-hidden="true">&#9728;</span>
         <span id="theme-label">Light</span>
       </button>
-      <a href="landing.html" class="back-link" aria-label="Back to home page">&larr; Home</a>
     </div>
   </header>
 
@@ -1231,7 +1230,7 @@
             <span class="conf-val" id="conf-val" aria-live="polite"></span>
           </div>
           <span class="meta-divider" aria-hidden="true">/</span>
-          <span class="tag">gemini-3-pro-preview</span>
+          <span class="tag">Intelligence Briefing</span>
           <span class="meta-divider" aria-hidden="true">/</span>
           <span class="tag">Executive Intelligence</span>
         </div>
@@ -1441,7 +1440,7 @@ Technical approach: 35% | Past performance: 25% | Price/cost: 25% | Small busine
 
     // ── GEMINI ────────────────────────────────────────────────────────────────────
     async function runAnalysis(text, docName) {
-      setStatus('Synthesizing intelligence\u2026', MODEL);
+      setStatus('Synthesizing intelligence…', 'Analyzing document');
       var system = 'You are a Senior Intelligence Analyst. Extract strategically critical intelligence. Synthesize — do not summarize. Be precise, direct, and authoritative. No hedging language.';
       var prompt = 'Analyze this document and return a structured intelligence briefing.\nDocument: ' + docName + '\n---\n' + text.slice(0, 30000) + '\n---\nReturn ONLY valid JSON:\n{\n  "headline": "Bold 10-15 word strategic assessment in The Economist style",\n  "strategic_risks": ["Concise risk with specific figures/dates. Max 25 words. 3-6 items."],\n  "immediate_actions": ["Time-bound action starting with a verb. Max 25 words. 3-5 items."],\n  "key_financials": [{"label": "Short label", "value": "Specific value"}],\n  "executive_summary": "1-3 editorial sentences with analytical authority.",\n  "confidence_score": 0.88\n}';
 
@@ -1497,7 +1496,7 @@ Technical approach: 35% | Past performance: 25% | Price/cost: 25% | Small busine
         $('conf-fill').parentElement.setAttribute('aria-valuenow', Math.round(conf * 100));
         $('conf-val').textContent = Math.round(conf * 100) + '%';
       }, 400);
-      $('footer-ts').textContent = 'Generated ' + now.toLocaleTimeString() + ' \u00b7 ' + MODEL;
+      $('footer-ts').textContent = 'Generated ' + now.toLocaleTimeString();
 
       var risks = Array.isArray(intel.strategic_risks) ? intel.strategic_risks : [];
       $('risk-count').textContent = risks.length + ' identified';

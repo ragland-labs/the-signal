@@ -1,6 +1,2 @@
-# Explicit HTML file routes — must come BEFORE the wildcard
-/app.html  /app.html  200
-/app       /app.html  200
-
-# Wildcard: everything else goes to the landing page
-/*         /index.html  200
+# Convenience alias: /app -> /app.html
+/app   /app.html  200

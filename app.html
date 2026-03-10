@@ -228,9 +228,161 @@
 
         /* HERO */
         #hero {
-            padding: 60px 0 40px;
+            position: relative;
+            padding: 72px 0 52px;
             border-bottom: 1px solid var(--border);
-            margin-bottom: 48px
+            margin-bottom: 48px;
+            overflow: hidden
+        }
+
+        /* Ambient orbs behind the hero */
+        .hero-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            z-index: 0
+        }
+
+        .hero-orb-1 {
+            width: 420px;
+            height: 420px;
+            background: radial-gradient(circle, rgba(47, 95, 133, .18) 0%, transparent 70%);
+            top: -120px;
+            left: -80px;
+            animation: hero-drift1 18s ease-in-out infinite
+        }
+
+        .hero-orb-2 {
+            width: 320px;
+            height: 320px;
+            background: radial-gradient(circle, rgba(91, 143, 186, .12) 0%, transparent 70%);
+            bottom: -60px;
+            right: 10%;
+            animation: hero-drift2 24s ease-in-out infinite
+        }
+
+        @keyframes hero-drift1 {
+
+            0%,
+            100% {
+                transform: translate(0, 0)
+            }
+
+            50% {
+                transform: translate(40px, -30px)
+            }
+        }
+
+        @keyframes hero-drift2 {
+
+            0%,
+            100% {
+                transform: translate(0, 0)
+            }
+
+            50% {
+                transform: translate(-30px, 20px)
+            }
+        }
+
+        /* Decorative scan line */
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: .35;
+            animation: scanline 4s ease-in-out infinite alternate
+        }
+
+        @keyframes scanline {
+            from {
+                opacity: .15;
+                transform: scaleX(.4)
+            }
+
+            to {
+                opacity: .45;
+                transform: scaleX(1)
+            }
+        }
+
+
+        /* Hero content entrance */
+        .hero-eyebrow,
+        .hero-title,
+        .hero-sub,
+        .hero-meta {
+            position: relative;
+            z-index: 1;
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity .7s cubic-bezier(.16, 1, .3, 1), transform .7s cubic-bezier(.16, 1, .3, 1)
+        }
+
+        .hero-eyebrow.vis {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: .05s
+        }
+
+        .hero-title.vis {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: .15s
+        }
+
+        .hero-sub.vis {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: .28s
+        }
+
+        .hero-meta.vis {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: .42s
+        }
+
+        /* Meta strip */
+        .hero-meta {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border)
+        }
+
+        .hero-meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px
+        }
+
+        .hero-meta-label {
+            font-family: var(--fm);
+            font-size: .55rem;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: var(--text-mute)
+        }
+
+        .hero-meta-value {
+            font-family: var(--fm);
+            font-size: .75rem;
+            letter-spacing: .06em;
+            color: var(--accent)
+        }
+
+        .hero-meta-divider {
+            width: 1px;
+            height: 28px;
+            background: var(--border-lit)
         }
 
         .hero-eyebrow {
@@ -994,10 +1146,37 @@
 
     <div id="main">
         <section id="hero" aria-labelledby="hero-title">
+            <!-- Ambient background -->
+            <div class="hero-orb hero-orb-1" aria-hidden="true"></div>
+            <div class="hero-orb hero-orb-2" aria-hidden="true"></div>
+
             <p class="hero-eyebrow">Intelligence Briefing System &mdash; v1.0</p>
             <h1 id="hero-title" class="hero-title">From <em>chaos</em> to<br />clarity. In seconds.</h1>
             <p class="hero-sub">Ingest any document &mdash; RFP, legal filing, earnings release &mdash; and receive a
                 precision executive briefing: strategic risks, immediate actions, and key financials.</p>
+
+            <!-- Meta strip -->
+            <div class="hero-meta" aria-hidden="true">
+                <div class="hero-meta-item">
+                    <span class="hero-meta-label">Engine</span>
+                    <span class="hero-meta-value" id="meta-model">Gemini 3 Pro</span>
+                </div>
+                <div class="hero-meta-divider"></div>
+                <div class="hero-meta-item">
+                    <span class="hero-meta-label">Formats</span>
+                    <span class="hero-meta-value">PDF &bull; TXT</span>
+                </div>
+                <div class="hero-meta-divider"></div>
+                <div class="hero-meta-item">
+                    <span class="hero-meta-label">Output</span>
+                    <span class="hero-meta-value">Risks &bull; Actions &bull; Financials</span>
+                </div>
+                <div class="hero-meta-divider"></div>
+                <div class="hero-meta-item">
+                    <span class="hero-meta-label">Session</span>
+                    <span class="hero-meta-value" id="meta-time"></span>
+                </div>
+            </div>
 
             <div id="drop-zone" role="button" tabindex="0"
                 aria-label="Document drop zone. Click to select a file or drag and drop.">
@@ -1342,6 +1521,21 @@ Technical approach: 35% | Past performance: 25% | Price/cost: 25% | Small busine
                 loader.classList.add('loader-done');
                 setTimeout(function () { loader.style.display = 'none'; }, 700);
             }, 1800);
+
+            // Hero entrance animations
+            ['hero-eyebrow', 'hero-title', 'hero-sub', 'hero-meta'].forEach(function (cls, i) {
+                var el = document.querySelector('.' + cls);
+                if (el) setTimeout(function () { el.classList.add('vis'); }, 400 + i * 140);
+            });
+
+            // Live session time in meta strip
+            var metaTime = document.getElementById('meta-time');
+            if (metaTime) {
+                function tickTime() {
+                    metaTime.textContent = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                }
+                tickTime(); setInterval(tickTime, 60000);
+            }
         });
 
         // Ragland Labs passive-loop signature

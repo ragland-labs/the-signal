@@ -1,3 +1,6 @@
-# Redirect root to landing page (already index.html)
-/app   /app.html   200
-/*     /index.html  200
+# Explicit HTML file routes — must come BEFORE the wildcard
+/app.html  /app.html  200
+/app       /app.html  200
+
+# Wildcard: everything else goes to the landing page
+/*         /index.html  200

@@ -956,10 +956,26 @@
       align-items: center;
       justify-content: center;
       gap: 28px;
-      transition: opacity .7s cubic-bezier(.4, 0, 1, 1);
+      /* Pure CSS dismiss: fade out at 1.8s, no JavaScript required */
+      animation: loader-exit .6s cubic-bezier(.4, 0, 1, 1) 1.8s forwards;
       pointer-events: all
     }
 
+    @keyframes loader-exit {
+      0% {
+        opacity: 1;
+        pointer-events: all;
+        visibility: visible
+      }
+
+      100% {
+        opacity: 0;
+        pointer-events: none;
+        visibility: hidden
+      }
+    }
+
+    /* Keep .loader-done as fallback if JS runs first */
     #loader.loader-done {
       opacity: 0;
       pointer-events: none

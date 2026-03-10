@@ -21,10 +21,11 @@
     <meta name="twitter:title" content="The Signal — Intelligence Briefing" />
     <meta name="twitter:image"
         content="https://ik.imagekit.io/xrtdefb8l/favicon_logo_ragland_labs_v2.jpg?updatedAt=1768359858839" />
-    <link rel="icon" type="image/jpeg"
-        href="https://ik.imagekit.io/xrtdefb8l/favicon_logo_ragland_labs_v2.jpg?updatedAt=1768359858839" />
+    <!-- Favicon: custom SVG signal pulse icon -->
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='4.5' fill='%232F5F85'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%232F5F85' stroke-width='1.5' opacity='0.55'/%3E%3Ccircle cx='16' cy='16' r='14' fill='none' stroke='%232F5F85' stroke-width='1' opacity='0.25'/%3E%3C/svg%3E" />
     <link rel="apple-touch-icon"
-        href="https://ik.imagekit.io/xrtdefb8l/favicon_logo_ragland_labs_v2.jpg?updatedAt=1768359858839" />
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='4.5' fill='%232F5F85'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%232F5F85' stroke-width='1.5' opacity='0.55'/%3E%3Ccircle cx='16' cy='16' r='14' fill='none' stroke='%232F5F85' stroke-width='1' opacity='0.25'/%3E%3C/svg%3E" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -1081,9 +1082,9 @@
 
             <footer id="dash-footer">
                 <span class="footer-text">The Signal &mdash; Intelligence Briefing System &mdash; Confidential</span>
-                <span class="footer-text" id="footer-ts"></span>
-                <!-- Ragland Labs Signature -->
-                <div class="rl-sig" id="rl-sig" role="link" tabindex="0" aria-label="Built by Ragland Labs">
+                <!-- Ragland Labs Signature (centered) -->
+                <div class="rl-sig" id="rl-sig" role="link" tabindex="0" aria-label="Built by Ragland Labs"
+                    style="margin:0 auto">
                     <div class="rl-chip" id="rl-chip">
                         <img src="https://ik.imagekit.io/xrtdefb8l/favicon_logo_ragland_labs_v2.jpg?updatedAt=1768359858839"
                             alt="Ragland Labs" width="24" height="24" />
@@ -1093,6 +1094,7 @@
                         <span class="rl-shimmer"></span>
                     </div>
                 </div>
+                <span class="footer-text" id="footer-ts"></span>
             </footer>
         </section>
     </div>

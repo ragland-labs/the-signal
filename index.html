@@ -6,9 +6,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="color-scheme" content="light dark" />
   <meta name="theme-color" id="theme-meta" content="#F4F1EC" />
-  <title>The Signal — Intelligence Briefing</title>
+  <title>The Signal — Intelligence Briefing by Ragland Labs</title>
   <meta name="description"
-    content="Transform dense documents into executive intelligence. Strategic risks, immediate actions, key financials — in seconds." />
+    content="Transform dense documents into executive intelligence in seconds. Strategic risks, immediate actions, key financials — clarity from chaos." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Ragland Labs" />
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="The Signal — Intelligence Briefing" />
+  <meta property="og:description"
+    content="Transform dense documents into executive intelligence in seconds. Strategic risks, immediate actions, key financials — clarity from chaos." />
+  <meta property="og:image"
+    content="https://ik.imagekit.io/xrtdefb8l/favicon_logo_ragland_labs_v2.jpg?updatedAt=1768359858839" />
+  <meta property="og:url" content="https://the-signal.pages.dev" />
+  <meta property="og:site_name" content="The Signal" />
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="The Signal — Intelligence Briefing" />
+  <meta name="twitter:description" content="Transform dense documents into executive intelligence in seconds." />
+  <meta name="twitter:image"
+    content="https://ik.imagekit.io/xrtdefb8l/favicon_logo_ragland_labs_v2.jpg?updatedAt=1768359858839" />
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg"
+    href="https://ik.imagekit.io/xrtdefb8l/favicon_logo_ragland_labs_v2.jpg?updatedAt=1768359858839" />
+  <link rel="apple-touch-icon"
+    href="https://ik.imagekit.io/xrtdefb8l/favicon_logo_ragland_labs_v2.jpg?updatedAt=1768359858839" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -803,6 +825,207 @@
       background: var(--border-lit);
       border-radius: 2px
     }
+
+    /* ── LOADING SCREEN ─────────────────────────────────────────────── */
+    #loader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      transition: opacity .7s cubic-bezier(.4, 0, 1, 1);
+      pointer-events: all
+    }
+
+    #loader.loader-done {
+      opacity: 0;
+      pointer-events: none
+    }
+
+    .loader-wordmark {
+      font-family: var(--fd);
+      font-weight: 600;
+      font-size: 1.1rem;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .loader-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 1.4s ease-in-out infinite
+    }
+
+    .loader-bar {
+      width: 120px;
+      height: 1.5px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden
+    }
+
+    .loader-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 2px;
+      width: 0;
+      animation: loadfill 1.65s cubic-bezier(.25, 1, .5, 1) forwards
+    }
+
+    @keyframes loadfill {
+      0% {
+        width: 0
+      }
+
+      60% {
+        width: 70%
+      }
+
+      100% {
+        width: 100%
+      }
+    }
+
+    /* ── RAGLAND LABS SIGNATURE ──────────────────────────────────────── */
+    .rl-sig {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      position: relative;
+      height: 28px;
+      outline: none
+    }
+
+    .rl-sig:focus-visible {
+      outline: 1px solid var(--accent);
+      outline-offset: 4px;
+      border-radius: 3px
+    }
+
+    .rl-chip {
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+      overflow: hidden;
+      opacity: .8;
+      transition: opacity .8s ease, transform .8s cubic-bezier(.16, 1, .3, 1), filter .8s ease;
+      flex-shrink: 0;
+      position: relative;
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, .1)
+    }
+
+    .rl-chip img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block
+    }
+
+    .rl-chip.rl-chip-hidden {
+      opacity: 0;
+      transform: scale(.7);
+      filter: blur(4px);
+      width: 0;
+      margin-right: 0
+    }
+
+    .rl-chip:not(.rl-chip-hidden) {
+      margin-right: 0
+    }
+
+    .rl-text {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      opacity: 0;
+      transform: scale(.85);
+      filter: blur(4px);
+      transition: opacity .8s ease, transform .8s cubic-bezier(.16, 1, .3, 1), filter .8s ease;
+      pointer-events: none;
+      position: relative;
+      overflow: hidden;
+      white-space: nowrap
+    }
+
+    .rl-text.rl-text-visible {
+      opacity: 1;
+      transform: scale(1);
+      filter: blur(0);
+      pointer-events: auto
+    }
+
+    .rl-name {
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: #fff;
+      position: relative;
+      z-index: 1
+    }
+
+    [data-theme="light"] .rl-name {
+      color: #1A1A1A
+    }
+
+    .rl-suffix {
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: #A097CC;
+      position: relative;
+      z-index: 1
+    }
+
+    .rl-shimmer {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(160, 151, 204, .35) 50%, transparent 100%);
+      background-size: 200% 100%;
+      background-position: -200% 0;
+      pointer-events: none;
+      z-index: 2
+    }
+
+    .rl-text.rl-text-visible .rl-shimmer {
+      animation: shimmer 2s ease .2s forwards
+    }
+
+    @keyframes shimmer {
+      from {
+        background-position: -200% 0
+      }
+
+      to {
+        background-position: 200% 0
+      }
+    }
+
+    /* Footer layout update to accommodate signature */
+    .site-footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap
+    }
+
+    .rl-sig {
+      margin-left: auto
+    }
   </style>
 </head>
 
@@ -957,60 +1180,153 @@
   <footer class="site-footer">
     <span class="footer-brand">The Signal</span>
     <span class="footer-copy">Intelligence Briefing System &mdash; 2025</span>
+    <!-- Ragland Labs Signature -->
+    <div class="rl-sig" id="rl-sig" role="link" tabindex="0" aria-label="Built by Ragland Labs">
+      <div class="rl-chip" id="rl-chip">
+        <img src="https://ik.imagekit.io/xrtdefb8l/favicon_logo_ragland_labs_v2.jpg?updatedAt=1768359858839"
+          alt="Ragland Labs" width="24" height="24" />
+      </div>
+      <div class="rl-text" id="rl-text" aria-hidden="true">
+        <span class="rl-name">RAGLAND</span><span class="rl-suffix">&nbsp;LABS</span>
+        <span class="rl-shimmer"></span>
+      </div>
+    </div>
   </footer>
 
+  <!-- Loading Screen -->
+  <div id="loader" role="status" aria-label="Loading The Signal">
+    <div class="loader-wordmark">
+      <div class="loader-dot" aria-hidden="true"></div>
+      <span>The Signal</span>
+    </div>
+    <div class="loader-bar">
+      <div class="loader-fill"></div>
+    </div>
+  </div>
+
   <script>
-'use strict';
-const THEME_KEY = 'signal_theme';
-const html = document.documentElement;
+    'use strict';
+    const THEME_KEY = 'signal_theme';
+    const html = document.documentElement;
 
-function getSystem() { return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
-function applyTheme(t) {
-  html.setAttribute('data-theme', t);
-  const icon = document.getElementById('theme-icon');
-  const label = document.getElementById('theme-label');
-  const meta = document.getElementById('theme-meta');
-  if (t === 'dark') {
-    if (icon) icon.innerHTML = '&#9789;';
-    if (label) label.textContent = 'Dark';
-    if (meta) meta.setAttribute('content', '#0B1929');
-  } else {
-    if (icon) icon.innerHTML = '&#9728;';
-    if (label) label.textContent = 'Light';
-    if (meta) meta.setAttribute('content', '#F4F1EC');
-  }
-}
-function initTheme() { applyTheme(localStorage.getItem(THEME_KEY) || getSystem()); }
-initTheme();
-document.getElementById('theme-toggle').addEventListener('click', function() {
-  const next = (html.getAttribute('data-theme') || getSystem()) === 'dark' ? 'light' : 'dark';
-  localStorage.setItem(THEME_KEY, next);
-  applyTheme(next);
-});
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
-  if (!localStorage.getItem(THEME_KEY)) applyTheme(e.matches ? 'dark' : 'light');
-});
+    function getSystem() { return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+    function applyTheme(t) {
+      html.setAttribute('data-theme', t);
+      const icon = document.getElementById('theme-icon');
+      const label = document.getElementById('theme-label');
+      const meta = document.getElementById('theme-meta');
+      if (t === 'dark') {
+        if (icon) icon.innerHTML = '&#9789;';
+        if (label) label.textContent = 'Dark';
+        if (meta) meta.setAttribute('content', '#0B1929');
+      } else {
+        if (icon) icon.innerHTML = '&#9728;';
+        if (label) label.textContent = 'Light';
+        if (meta) meta.setAttribute('content', '#F4F1EC');
+      }
+    }
+    function initTheme() { applyTheme(localStorage.getItem(THEME_KEY) || getSystem()); }
+    initTheme();
+    document.getElementById('theme-toggle').addEventListener('click', function () {
+      const next = (html.getAttribute('data-theme') || getSystem()) === 'dark' ? 'light' : 'dark';
+      localStorage.setItem(THEME_KEY, next);
+      applyTheme(next);
+    });
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
+      if (!localStorage.getItem(THEME_KEY)) applyTheme(e.matches ? 'dark' : 'light');
+    });
 
-// Nav scroll
-const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', function() {
-  navbar.classList.toggle('scrolled', window.scrollY > 30);
-}, { passive: true });
+    // Nav scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', function () {
+      navbar.classList.toggle('scrolled', window.scrollY > 30);
+    }, { passive: true });
 
-// Hero entrance
-window.addEventListener('load', function() {
-  var els = ['hr1','h-eyebrow','hero-headline','h-sub','h-actions','scroll-hint'];
-  els.forEach(function(id, i) {
-    var el = document.getElementById(id);
-    if (el) setTimeout(function(){ el.classList.add('visible'); }, 80 + i * 130);
-  });
-});
+    // Hero entrance
+    window.addEventListener('load', function () {
+      var els = ['hr1', 'h-eyebrow', 'hero-headline', 'h-sub', 'h-actions', 'scroll-hint'];
+      els.forEach(function (id, i) {
+        var el = document.getElementById(id);
+        if (el) setTimeout(function () { el.classList.add('visible'); }, 80 + i * 130);
+      });
+    });
 
-// Scroll reveal
-var obs = new IntersectionObserver(function(entries) {
-  entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
+    // Scroll reveal
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(function (el) { obs.observe(el); });
+
+    // Loading screen — dismiss after 1.8s
+    window.addEventListener('DOMContentLoaded', function () {
+      var loader = document.getElementById('loader');
+      if (!loader) return;
+      setTimeout(function () {
+        loader.classList.add('loader-done');
+        setTimeout(function () { loader.style.display = 'none'; }, 700);
+      }, 1800);
+    });
+
+    // Ragland Labs passive-loop signature
+    (function () {
+      var sig = document.getElementById('rl-sig');
+      var chip = document.getElementById('rl-chip');
+      var text = document.getElementById('rl-text');
+      if (!sig) return;
+      var revealed = false;
+      var locked = false;
+      var loopTimer = null;
+      var hideTimer = null;
+
+      function reveal() {
+        if (revealed) return;
+        revealed = true;
+        chip.classList.add('rl-chip-hidden');
+        text.classList.add('rl-text-visible');
+      }
+      function hide() {
+        if (!revealed || locked) return;
+        revealed = false;
+        chip.classList.remove('rl-chip-hidden');
+        text.classList.remove('rl-text-visible');
+      }
+      function startLoop() {
+        if (locked) return;
+        // Initial delay: 2.2s
+        loopTimer = setTimeout(function () {
+          reveal();
+          // Hold for 5.5s then hide
+          hideTimer = setTimeout(function () {
+            hide();
+            // Ghost wait 22s then loop again
+            loopTimer = setTimeout(startLoop, 22000);
+          }, 5500);
+        }, 2200);
+      }
+
+      // Start loop when footer enters viewport
+      var sigObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { startLoop(); sigObs.disconnect(); }
+        });
+      }, { threshold: 0.5 });
+      sigObs.observe(sig);
+
+      // Hover reveals instantly
+      sig.addEventListener('mouseenter', function () { if (!locked) reveal(); });
+      sig.addEventListener('mouseleave', function () { if (!locked) { hide(); } });
+
+      // Click locks it open
+      sig.addEventListener('click', function () {
+        locked = true;
+        clearTimeout(loopTimer); clearTimeout(hideTimer);
+        reveal();
+        window.open('https://raglandlabs.com', '_blank', 'noopener');
+      });
+      sig.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); sig.click(); }
+      });
+    })();
   </script>
 </body>
 

@@ -1,59 +1,73 @@
-# The Signal — Intelligence Briefing System
+# React + TypeScript + Vite
 
-A client-side executive intelligence briefing tool. Drop in any document — RFP, legal filing, earnings release — and receive a structured briefing with strategic risks, immediate actions, and key financials. Powered by the Gemini API.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Project Structure
+Currently, two official plugins are available:
 
-```
-the-signal/
-├── index.html      # Landing page
-├── app.html        # Intelligence briefing application
-├── _redirects      # Cloudflare Pages routing
-├── _headers        # Cloudflare Pages security headers
-└── README.md       # This file
-```
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Tech Stack
+## React Compiler
 
-- Pure HTML/CSS/JS — zero build step, zero dependencies
-- [Gemini API](https://ai.google.dev/) — `gemini-3-pro-preview` for document synthesis
-- [PDF.js](https://mozilla.github.io/pdf.js/) — client-side PDF parsing
-- Google Fonts: Cormorant Garamond + IBM Plex Mono
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Deploying to Cloudflare Pages
+## Expanding the ESLint configuration
 
-1. Push this repo to GitHub
-2. Go to [Cloudflare Pages](https://pages.cloudflare.com) → Create a project
-3. Connect your GitHub repo
-4. Build settings:
-   - **Framework preset**: **None** (Selecting a framework like React/Vite will cause builds to fail).
-   - **Build command**: *(leave completely empty)*
-   - **Output directory**: `/` (root)
-5. **Environment Variables**:
-   - In the Cloudflare Pages dashboard, go to **Settings** → **Environment variables**.
-   - Add a variable named `GEMINI_API_KEY`.
-   - Paste your Gemini API key from [Google AI Studio](https://aistudio.google.dev/).
-6. **Save and Deploy**. (You may need to trigger a new deployment for the variable to take effect).
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-## Security & Privacy
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-- **API Security**: The API key is stored securely in Cloudflare's environment variables. It is never exposed in the client-side code or the public GitHub repository. Calls are proxied through a serverless function (`/functions/api/analyze.js`).
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-- **Data Privacy**: All document processing happens within the Gemini API. No document content is stored on the Cloudflare server or in the browser after the session ends.
-
-## Running Locally
-
-Open `index.html` in any browser — no server required.
-
-Or use any simple static server:
-```bash
-npx serve .
-# or
-python3 -m http.server 8080
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
 
-## Design System
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-- **Colors**: Steel blue accent (`#2F5F85` light / `#5B8FBA` dark), cream background, deep navy dark mode
-- **Typography**: Cormorant Garamond (editorial display) + IBM Plex Mono (data/labels)
-- **Theme**: Auto-detects system preference, toggle available in both pages
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```

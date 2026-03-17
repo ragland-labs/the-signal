@@ -3,6 +3,7 @@ import { Hero } from './components/layout/Hero'
 import { Footer } from './components/layout/Footer'
 import { Dropzone } from './components/ui/Dropzone'
 import { StatusBar } from './components/ui/StatusBar'
+import { WaitlistCapture } from './components/ui/WaitlistCapture'
 import { useQuery } from "convex/react"
 import { api } from "../convex/_generated/api"
 import { useState } from "react"
@@ -90,6 +91,8 @@ function App() {
               <span>Confidence Score: <span style={{ color: 'var(--accent)' }}>{briefing.confidenceScore}%</span></span>
               <span>Generated {new Date(briefing.generatedAt).toLocaleString()}</span>
             </div>
+
+            <WaitlistCapture />
           </div>
         )}
 

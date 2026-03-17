@@ -33,4 +33,10 @@ export default defineSchema({
         rawResponse: v.optional(v.string()), // Entire model output if needed
         generatedAt: v.number(),
     }).index("by_session", ["sessionId"]),
+
+    waitlist: defineTable({
+        email: v.string(),
+        joinedAt: v.number(),
+        source: v.optional(v.string()), // e.g. "demo-briefing"
+    }).index("by_email", ["email"]),
 })

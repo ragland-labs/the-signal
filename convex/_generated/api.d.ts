@@ -13,6 +13,7 @@ import type * as files from "../files.js";
 import type * as gemini from "../gemini.js";
 import type * as rateLimiter from "../rateLimiter.js";
 import type * as sessions from "../sessions.js";
+import type * as waitlist from "../waitlist.js";
 
 import type {
   ApiFromModules,
@@ -26,6 +27,7 @@ declare const fullApi: ApiFromModules<{
   gemini: typeof gemini;
   rateLimiter: typeof rateLimiter;
   sessions: typeof sessions;
+  waitlist: typeof waitlist;
 }>;
 
 /**

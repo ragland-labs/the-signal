@@ -31,15 +31,13 @@ function App() {
             <StatusBar
               status={isProcessing ? "loading" : isFailed ? "error" : "idle"}
               message={isFailed ? "Analysis failed. Please try again." : ""}
-              subMessage={isProcessing ? "Gemini 2.5 Pro · Multimodal Inference" : ""}
+              subMessage={isProcessing ? "AI Analysis in Progress" : ""}
             />
           </>
         ) : (
-          <div className="mx-auto max-w-4xl pt-10 animate-fade-in-up">
-            <div className="flex items-center justify-between mb-6 border-b border-[var(--border)] pb-4">
-              <h2 style={{ fontFamily: 'var(--fd)', fontSize: '1.75rem', fontWeight: 700, color: 'var(--white)', lineHeight: 1.1 }}>
-                Intelligence Briefing
-              </h2>
+          <div id="briefing-section" className="animate-fade-in-up">
+            <div className="briefing-header">
+              <h2 className="briefing-title">Intelligence Briefing</h2>
               <button
                 className="btn btn-ghost"
                 type="button"
@@ -50,45 +48,45 @@ function App() {
               </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div className="p-5 bg-[var(--bg-card)] border border-[var(--border)] shadow rounded">
-                <h3 style={{ fontFamily: 'var(--fm)', fontSize: '0.62rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--red)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span style={{ width: '3px', height: '14px', background: 'var(--red)', borderRadius: '2px', flexShrink: 0 }}></span>
+            <div className="briefing-grid">
+              <div className="briefing-card">
+                <h3 className="briefing-card-header" style={{ color: 'var(--red)' }}>
+                  <span className="briefing-card-accent" style={{ background: 'var(--red)' }}></span>
                   Strategic Risks
                 </h3>
-                <ul style={{ listStyle: 'disc', paddingLeft: '1rem', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <ul className="briefing-list">
                   {briefing.strategicRisks?.map((risk: string, i: number) => (
-                    <li key={i} style={{ fontFamily: 'var(--fb)', fontSize: '0.88rem', color: 'var(--text-dim)', lineHeight: 1.6 }}>{risk}</li>
+                    <li key={i}>{risk}</li>
                   ))}
                 </ul>
               </div>
 
-              <div className="p-5 bg-[var(--bg-card)] border border-[var(--border)] shadow rounded">
-                <h3 style={{ fontFamily: 'var(--fm)', fontSize: '0.62rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--amber)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span style={{ width: '3px', height: '14px', background: 'var(--amber)', borderRadius: '2px', flexShrink: 0 }}></span>
+              <div className="briefing-card">
+                <h3 className="briefing-card-header" style={{ color: 'var(--amber)' }}>
+                  <span className="briefing-card-accent" style={{ background: 'var(--amber)' }}></span>
                   Immediate Actions
                 </h3>
-                <ul style={{ listStyle: 'disc', paddingLeft: '1rem', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <ul className="briefing-list">
                   {briefing.immediateActions?.map((action: string, i: number) => (
-                    <li key={i} style={{ fontFamily: 'var(--fb)', fontSize: '0.88rem', color: 'var(--text-dim)', lineHeight: 1.6 }}>{action}</li>
+                    <li key={i}>{action}</li>
                   ))}
                 </ul>
               </div>
 
-              <div className="p-5 bg-[var(--bg-card)] border border-[var(--border)] shadow rounded md:col-span-2">
-                <h3 style={{ fontFamily: 'var(--fm)', fontSize: '0.62rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--green)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span style={{ width: '3px', height: '14px', background: 'var(--green)', borderRadius: '2px', flexShrink: 0 }}></span>
+              <div className="briefing-card briefing-card-full">
+                <h3 className="briefing-card-header" style={{ color: 'var(--green)' }}>
+                  <span className="briefing-card-accent" style={{ background: 'var(--green)' }}></span>
                   Key Financials &amp; Metrics
                 </h3>
-                <ul style={{ listStyle: 'disc', paddingLeft: '1rem', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <ul className="briefing-list">
                   {briefing.keyFinancials?.map((fin: string, i: number) => (
-                    <li key={i} style={{ fontFamily: 'var(--fb)', fontSize: '0.88rem', color: 'var(--text-dim)', lineHeight: 1.6 }}>{fin}</li>
+                    <li key={i}>{fin}</li>
                   ))}
                 </ul>
               </div>
             </div>
 
-            <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: 'var(--fm)', fontSize: '0.68rem', color: 'var(--text-mute)', borderTop: '1px solid var(--border)', paddingTop: '1rem', flexWrap: 'wrap', gap: '8px' }}>
+            <div className="briefing-meta">
               <span>Confidence Score: <span style={{ color: 'var(--accent)' }}>{briefing.confidenceScore}%</span></span>
               <span>Generated {new Date(briefing.generatedAt).toLocaleString()}</span>
             </div>

@@ -13,18 +13,18 @@ export function Hero() {
             {/* Meta strip */}
             <div className="hero-meta vis" aria-hidden="true">
                 <div className="hero-meta-item">
-                    <span className="hero-meta-label">Engine</span>
-                    <span className="hero-meta-value">Gemini 2.5 Pro</span>
+                    <span className="hero-meta-label">Accepts</span>
+                    <span className="hero-meta-value">Docs, Audio &amp; Video</span>
                 </div>
                 <div className="hero-meta-divider"></div>
                 <div className="hero-meta-item">
-                    <span className="hero-meta-label">Formats</span>
-                    <span className="hero-meta-value">Multimodal</span>
+                    <span className="hero-meta-label">Analysis</span>
+                    <span className="hero-meta-value">AI-Powered</span>
                 </div>
                 <div className="hero-meta-divider"></div>
                 <div className="hero-meta-item">
                     <span className="hero-meta-label">Output</span>
-                    <span className="hero-meta-value">Briefing Dash</span>
+                    <span className="hero-meta-value">Intelligence Brief</span>
                 </div>
             </div>
         </section>

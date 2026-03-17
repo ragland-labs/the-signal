@@ -12,8 +12,11 @@ export function Dropzone({ onSessionCreated }: { onSessionCreated: (id: Id<"sess
     const [stagedFiles, setStagedFiles] = useState<File[]>([])
     const [isUploading, setIsUploading] = useState(false)
     const [isDragging, setIsDragging] = useState(false)
+    const [uploadError, setUploadError] = useState<string | null>(null)
 
     const fileInputRef = useRef<HTMLInputElement>(null)
+
+    const clearError = () => setUploadError(null)
 
     const handleSelectFileClick = () => {
         fileInputRef.current?.click()
@@ -22,6 +25,7 @@ export function Dropzone({ onSessionCreated }: { onSessionCreated: (id: Id<"sess
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = Array.from(event.target.files || [])
         if (files.length === 0) return
+        clearError()
         setStagedFiles(prev => [...prev, ...files])
         if (event.target) event.target.value = ''
     }
@@ -36,7 +40,6 @@ export function Dropzone({ onSessionCreated }: { onSessionCreated: (id: Id<"sess
     }
 
     const handleDragLeave = (e: React.DragEvent) => {
-        // Only clear when leaving the drop zone itself, not a child element
         if (!e.currentTarget.contains(e.relatedTarget as Node)) {
             setIsDragging(false)
         }
@@ -45,6 +48,7 @@ export function Dropzone({ onSessionCreated }: { onSessionCreated: (id: Id<"sess
     const handleDrop = (e: React.DragEvent) => {
         e.preventDefault()
         setIsDragging(false)
+        clearError()
         const files = Array.from(e.dataTransfer.files)
         if (files.length > 0) {
             setStagedFiles(prev => [...prev, ...files])
@@ -58,6 +62,7 @@ export function Dropzone({ onSessionCreated }: { onSessionCreated: (id: Id<"sess
     const handleGenerate = async () => {
         if (stagedFiles.length === 0) return
         setIsUploading(true)
+        clearError()
         try {
             const sessionId = await createSession({})
             onSessionCreated(sessionId)
@@ -82,6 +87,16 @@ export function Dropzone({ onSessionCreated }: { onSessionCreated: (id: Id<"sess
             await Promise.all(uploadPromises)
             await generateBriefing({ sessionId })
         } catch (error) {
+            const msg = error instanceof Error ? error.message : ''
+            if (msg.includes('Rate limit') || msg.includes('Too many')) {
+                setUploadError('Too many requests. Please wait a moment and try again.')
+            } else if (msg.includes('Daily') || msg.includes('daily')) {
+                setUploadError('Daily limit reached. The system resets at midnight UTC.')
+            } else if (msg.includes('No files')) {
+                setUploadError('No files were uploaded. Please try selecting your files again.')
+            } else {
+                setUploadError('Something went wrong. Please try again.')
+            }
             console.error("Upload/generation failed:", error)
         } finally {
             setIsUploading(false)
@@ -120,11 +135,14 @@ export function Dropzone({ onSessionCreated }: { onSessionCreated: (id: Id<"sess
             >
                 <div className="drop-glyph" aria-hidden="true">&#11041;</div>
                 <p className="drop-title">Drop your documents here</p>
-                <div className="tooltip-trigger">
-                    <p className="drop-hint">PDF · Images · Audio · Video · Text &mdash; drag &amp; drop or tap to browse</p>
-                    <div className="tooltip-content">
-                        Upload earnings calls, pitch decks, legal filings, audio recordings, or any document for an instant intelligence briefing.
-                    </div>
+                <p
+                    className="drop-hint"
+                    aria-describedby="drop-hint-tooltip"
+                >
+                    PDF · Images · Audio · Video · Text &mdash; drag &amp; drop or tap to browse
+                </p>
+                <div id="drop-hint-tooltip" role="tooltip" className="tooltip-content">
+                    Upload earnings calls, pitch decks, legal filings, audio recordings, or any document for an instant intelligence briefing.
                 </div>
                 <input
                     ref={fileInputRef}
@@ -148,13 +166,37 @@ export function Dropzone({ onSessionCreated }: { onSessionCreated: (id: Id<"sess
                 </div>
             </div>
 
+            {uploadError && (
+                <div role="alert" aria-live="assertive" style={{
+                    marginTop: '14px',
+                    padding: '11px 16px',
+                    background: 'var(--red-bg)',
+                    border: '1px solid var(--red)',
+                    borderRadius: '3px',
+                    fontFamily: 'var(--fm)',
+                    fontSize: '.72rem',
+                    color: 'var(--red)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '12px'
+                }}>
+                    <span>{uploadError}</span>
+                    <button
+                        onClick={clearError}
+                        aria-label="Dismiss error"
+                        style={{ background: 'none', border: 'none', color: 'var(--red)', cursor: 'pointer', fontSize: '1rem', padding: '0', lineHeight: 1, flexShrink: 0 }}
+                    >&times;</button>
+                </div>
+            )}
+
             {stagedFiles.length > 0 && (
                 <div className="staged-files-container animate-fade-in-up">
                     {stagedFiles.map((f, idx) => (
                         <div key={idx} className="staged-file-item">
                             <span className="staged-file-icon" aria-hidden="true">{getFileIcon(f.type)}</span>
                             <div className="staged-file-info">
-                                <span className="staged-file-name">{f.name}</span>
+                                <span className="staged-file-name" title={f.name}>{f.name}</span>
                                 <span className="staged-file-size">{formatSize(f.size)}</span>
                             </div>
                             <button

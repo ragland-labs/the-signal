@@ -1,24 +1,5 @@
 @import "tailwindcss";
 
-@layer theme, base, components, utilities;
-
-@theme {
-  --color-bg: #F4F1EC;
-  --color-bg-card: #FDFCFA;
-  --color-border: #D9D4C8;
-  --color-border-lit: #C4BEB1;
-  --color-text: #1A1A1A;
-  --color-text-dim: #5C5750;
-  --color-text-mute: #A09890;
-  --color-accent: #2F5F85;
-  --color-accent-dim: #1F3F58;
-  --color-accent-bg: rgba(47, 95, 133, 0.08);
-
-  --font-display: 'Cormorant Garamond', Georgia, serif;
-  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
-  --font-body: 'IBM Plex Sans', system-ui, sans-serif;
-}
-
 @layer base {
   :root {
     --bg: #F4F1EC;
@@ -31,7 +12,7 @@
     --accent: #2F5F85;
     --accent-dim: #1F3F58;
     --accent-bg: rgba(47, 95, 133, .08);
-    --white: #1A1A1A;
+    --text-strong: #1A1A1A;
     --red: #9B3530;
     --red-bg: rgba(155, 53, 48, .08);
     --amber: #9A6014;
@@ -56,7 +37,7 @@
     --accent: #5B8FBA;
     --accent-dim: #3D6A8F;
     --accent-bg: rgba(91, 143, 186, .1);
-    --white: #E8E4DC;
+    --text-strong: #E8E4DC;
     --red: #C05050;
     --red-bg: rgba(192, 80, 80, .1);
     --amber: #C8922A;
@@ -95,6 +76,18 @@
   .animate-fade-in-up {
     animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
+
+  /* Respect user's motion preferences — WCAG 2.3.3 */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
 
 @layer components {
@@ -106,12 +99,12 @@
     justify-content: space-between;
     padding: 13px 28px;
     border-bottom: 1px solid var(--border);
-    background: var(--bg);
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
     position: sticky;
     top: 0;
     z-index: 100;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px)
+    backdrop-filter: blur(12px) saturate(1.4);
+    -webkit-backdrop-filter: blur(12px) saturate(1.4)
   }
 
   .wordmark {
@@ -368,7 +361,7 @@
     letter-spacing: .22em;
     color: var(--accent);
     text-transform: uppercase;
-    margin-bottom: 18px
+    margin-bottom: 16px
   }
 
   .hero-title {
@@ -376,9 +369,9 @@
     font-size: clamp(2.6rem, 5.5vw, 4.4rem);
     font-weight: 700;
     line-height: 1.06;
-    color: var(--white);
+    color: var(--text-strong);
     max-width: 700px;
-    margin-bottom: 22px;
+    margin-bottom: 20px;
     text-wrap: balance
   }
 
@@ -435,10 +428,10 @@
   }
 
   .drop-hint {
-    font-family: var(--fm);
-    font-size: .7rem;
+    font-family: var(--fb);
+    font-size: .82rem;
     color: var(--text-dim);
-    letter-spacing: .06em
+    letter-spacing: 0
   }
 
   #file-input {
@@ -573,6 +566,23 @@
     letter-spacing: .1em
   }
 
+  .footer-credit-link {
+    color: var(--text-mute);
+    text-decoration: none;
+    letter-spacing: .1em;
+    transition: color .2s
+  }
+
+  .footer-credit-link:hover {
+    color: var(--accent)
+  }
+
+  .footer-credit-link:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 2px
+  }
+
   /* ── MINIMAL RAGLAND LABS LOGO ──────────────────────────────── */
   .rl-minimal-logo {
     display: flex;
@@ -700,6 +710,10 @@
     font-size: 0.75rem;
     color: var(--text);
     font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
   }
 
   .staged-file-size {
@@ -721,6 +735,114 @@
 
   .remove-file-btn:hover {
     color: var(--red);
+  }
+
+  .remove-file-btn:active {
+    color: var(--red);
+    background: var(--red-bg);
+    border-radius: 4px;
+  }
+
+  .remove-file-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* BRIEFING RESULT */
+  #briefing-section {
+    max-width: 56rem;
+    margin: 0 auto;
+    padding-top: 2.5rem
+  }
+
+  .briefing-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1rem;
+    gap: 16px
+  }
+
+  .briefing-title {
+    font-family: var(--fd);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-strong);
+    line-height: 1.1
+  }
+
+  .briefing-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem
+  }
+
+  @media (min-width: 768px) {
+    .briefing-grid {
+      grid-template-columns: 1fr 1fr
+    }
+  }
+
+  .briefing-card {
+    padding: 1.25rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    box-shadow: var(--shadow)
+  }
+
+  .briefing-card-full {
+    grid-column: 1 / -1
+  }
+
+  .briefing-card-header {
+    font-family: var(--fm);
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px
+  }
+
+  .briefing-card-accent {
+    width: 3px;
+    height: 14px;
+    border-radius: 2px;
+    flex-shrink: 0
+  }
+
+  .briefing-list {
+    list-style: disc;
+    padding-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px
+  }
+
+  .briefing-list li {
+    font-family: var(--fb);
+    font-size: 0.88rem;
+    color: var(--text-dim);
+    line-height: 1.6
+  }
+
+  .briefing-meta {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--fm);
+    font-size: 0.68rem;
+    color: var(--text-mute);
+    border-top: 1px solid var(--border);
+    padding-top: 1rem;
+    flex-wrap: wrap;
+    gap: 8px
   }
 
   /* PREMIUM CTA BUTTON */
@@ -756,6 +878,10 @@
     opacity: 0.5;
     cursor: not-allowed;
     transform: none;
+  }
+
+  .btn-premium:disabled .btn-premium-shimmer {
+    animation: none;
   }
 
   .btn-premium-shimmer {
@@ -869,6 +995,12 @@
     #topbar {
       padding-left: max(16px, env(safe-area-inset-left));
       padding-right: max(16px, env(safe-area-inset-right));
+    }
+
+    /* Freeze orb drift animations on mobile — reduces battery drain */
+    .hero-orb-1,
+    .hero-orb-2 {
+      animation: none;
     }
   }
 }

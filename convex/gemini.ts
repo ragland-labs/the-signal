@@ -20,9 +20,15 @@ function needsFileApi(mimeType: string, sizeBytes: number): boolean {
 export const checkRateLimit = internalMutation({
     args: {},
     handler: async (ctx) => {
-        const result = await rateLimiter.limit(ctx, "generateBriefingGlobal", { key: "global" })
-        if (!result.ok) {
-            throw new Error(`Rate limit exceeded. Please wait before generating another report.`);
+        // Per-minute check (5 RPM — Gemini free tier)
+        const perMinute = await rateLimiter.limit(ctx, "generateBriefingGlobal", { key: "global" })
+        if (!perMinute.ok) {
+            throw new Error("Too many requests. Please wait a moment before generating another briefing.")
+        }
+        // Daily check (20/day — leaves buffer below the 25 RPD free tier ceiling)
+        const perDay = await rateLimiter.limit(ctx, "generateBriefingDaily", { key: "global" })
+        if (!perDay.ok) {
+            throw new Error("Daily briefing limit reached. The system resets at midnight UTC.")
         }
     }
 })

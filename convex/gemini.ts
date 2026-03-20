@@ -139,7 +139,7 @@ Output strictly as JSON matching this schema:
 
         // 6. Generate Content with GenAI SDK
         const genResponse = await ai.models.generateContent({
-            model: "gemini-2.5-pro",
+            model: "gemini-2.0-flash",
             contents: contents,
             config: {
                 responseMimeType: "application/json",

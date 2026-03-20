@@ -103,7 +103,13 @@ export const generateBriefing = action({
                 })
             } else {
                 // Inline base64 for images, small PDFs, text
-                const base64Data = Buffer.from(arrayBuffer).toString("base64")
+                // Convex runs in a V8 isolate — no Buffer. Use Web API instead.
+                const uint8 = new Uint8Array(arrayBuffer)
+                let binary = ""
+                for (let i = 0; i < uint8.length; i += 8192) {
+                    binary += String.fromCharCode(...uint8.subarray(i, i + 8192))
+                }
+                const base64Data = btoa(binary)
                 contents.push({
                     inlineData: { data: base64Data, mimeType: file.format }
                 })
